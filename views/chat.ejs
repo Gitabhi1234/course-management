@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= group.name %> - Chat</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/group.css">
+    <link rel="stylesheet" href="/stylesheets/chat.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="icon-home">
+            <a href="/"><img class="vector-home" src="/images/home.png" alt="home-icon"></a>
+        </div>
+        <div class="add-material-icon">
+            <% if (user.role=="admin") { %>
+                <div class="icon-logout">
+                    <a href="/owners/admin"> <img class="icon-logout" src="/images/addmaterial.png" alt="logout-icon"></a>
+                </div>
+            <% } %>
+            <div class="icon-logout">
+                <a href="/users/logout"><img class="icon-logout" src="/images/logout.png" alt="logout-icon"></a>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+        <div class="add-group-icon" onclick="toggleForm()">+</div>
+        <ul class="group-list">
+            <% if (groups.length > 0) { %>
+                <% groups.forEach(group => { %>
+                    <% if (group.members.includes(user._id)) { %>
+                        <li class="group-item">
+                            <%= group.name %>
+                            <a href="/groups/chat/<%= group._id %>" class="btn view-btn">Chat</a>
+                        </li>
+                    <% } %>
+                <% }) %>
+            <% } else { %>
+                <h2 style="color: black;">No group Yet</h2>
+            <% } %>
+        </ul>
+    </div>
+
+    <div class="main-body">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <div class="department-section">
+            <div class="department-arrow">→</div>
+            <div class="department-name">CSE</div>
+           
+        </div>
+
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2><%= group.name %> - Chat</h2>
+                <a href="/groups/view/<%= group._id %>" class="btn back-btn">Back to Group</a>
+            </div>
+
+            <div class="chat-box">
+                <% if (messages.length > 0) { %>
+                    <% messages.forEach(message => { %>
+                        <div class="message">
+                            <div class="message-user">
+                                <strong><%= message.userName %></strong> 
+                                <span><%= new Date(message.createdAt).toLocaleString() %></span>
+                            </div>
+                            <div class="message-text">
+                                <%= message.text %>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No messages yet!</p>
+                <% } %>
+            </div>
+
+            <div class="chat-form">
+                <form action="/groups/chat/<%= group._id %>" method="POST">
+                    <textarea name="message" placeholder="Type a message..." required></textarea>
+                    <button type="submit" class="btn send-btn">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('groupForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        function shareOnWhatsApp(subjectName, courseId) {
+            const courseLink = `${window.location.origin}/course/${courseId}`;
+            const message = `visit classHub and download this notes: ${subjectName}\n\n${courseLink}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+
+</html>

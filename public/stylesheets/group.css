@@ -1,0 +1,63 @@
+
+.add-group-icon {
+    background-color: #007bff;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 10px auto;
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.group-item {
+    padding: 10px;
+    background: #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.form-container {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-container input, .form-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #218838;
+}

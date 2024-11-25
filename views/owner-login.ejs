@@ -1,0 +1,16 @@
+<%- include('./partials/header-admin') %>
+    <main class="container">
+        <div class="login-container">
+            <div class="form-wrapper">
+                <h4 class="title">Admin Access</h4>
+                <form action="/owners/login" method="post">
+                    <input class="form-input" type="email" placeholder="Email" name="email">
+                    <input class="form-input" type="password" placeholder="Password" name="password">
+                    <input class="form-submit" type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

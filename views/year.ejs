@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= year %> Year courses
+    </title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/group.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="icon-home">
+          <% if (user.role=="admin" ) { %>
+            <a href="/home"> <img class="vector-home" src="/images/home.png" alt="home-icon"></a>
+            <% }else { %>
+                <a href="/homeUser"> <img class="vector-home" src="/images/home.png" alt="home-icon"></a>
+            <% } %>
+        </div>
+        <div class="add-material-icon">
+            <% if (user.role=="admin" ) { %>
+                <div class="icon-logout">
+                    <a href="/owners/admin"> <img class="icon-logout" src="/images/addmaterial.png"
+                            alt="logout-icon"></a>
+                </div>
+                <% } %>
+                    <div class="icon-logout">
+                        <a href="/users/logout"><img class="icon-logout" src="/images/logout.png" alt="logout-icon"></a>
+                    </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+
+        <div class="add-group-icon" onclick="toggleForm()">+</div>
+        <% if (user.role=="admin" ) { %>
+
+            <div class="form-container" id="groupForm">
+                <form action="/groups/add" method="POST">
+                    <label for="groupName">Group Name:</label>
+                    <input type="text" id="groupName" name="name" placeholder="Enter group name" required>
+                    <label for="groupId">Group ID:</label>
+                    <input type="text" id="groupId" name="group_id" placeholder="Enter group id" required>
+
+                    <label for="groupDescription">Description:</label>
+                    <textarea id="groupDescription" name="description" rows="3" placeholder="Enter group description"
+                        required></textarea>
+
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+
+            <% } else { %>
+                <div class="form-container" id="groupForm">
+                    <form action="/groups/add" method="POST">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" name="name" placeholder="Enter group name" required>
+                        <label for="groupId">Group ID:</label>
+                        <input type="text" id="groupId" name="group_id" placeholder="Enter group id" required>
+
+                        <button type="submit">join Group</button>
+                    </form>
+                </div>
+
+                <% } %>
+
+                    <ul class="group-list">
+
+                        <% if (groups.length>0) {%>
+                            <% groups.forEach(group=>{ %>
+
+                                <% if (group.members.includes(user._id)) { %>
+                                    <li class="group-item">
+                                        <%= group.name %>
+                                        <a href="/groups/<%= group.name %>" class="btn view-btn">View</a>
+                                    </li>
+                                    <% } %>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <h2 style="color: black;">No group Yet</h2>
+                                                <% } %>
+                    </ul>
+    </div>
+    <div class="main-body">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <div class="department-section">
+            <div class="department-arrow">→</div>
+            <div class="department-name">CSE</div>
+            <div class="department-arrow">→</div>
+            <div class="department-name">
+                <%=year %> Year
+            </div>
+
+        </div>
+        <div class="subjects-container">
+            <% if (courses.length> 0) { %>
+                <% courses.forEach(course=> { %>
+                    <div class="subject-box">
+                        <img class="subject-image" src="data:image/jpeg;base64,<%= course.image.toString('base64') %>"
+                            alt="Subject Image">
+
+
+                        <div class="subject-info">
+                            <h3>
+                                <%= course.subject_name %>
+                            </h3>
+                            <p>Department: <%= course.department_name %>
+                            </p>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn download-btn"
+                                onclick="window.location.href='/courses/download/<%= course.subject_name  %>'">
+                                Download
+                            </button>
+                            <button class="btn share-btn" onclick="shareOnWhatsApp('<%= course.subject_name %>', '<%= course._id %>')">
+                                Share
+                            </button>
+                        </div>
+                    </div>
+
+                    <% }) %>
+                        <% } else { %>
+                            <h2 style="color: black;">No Course Yet</h2>
+                            <% } %>
+        </div>
+<script>
+        function toggleForm() {
+
+                const form = document.getElementById('groupForm');
+                if (form.style.display === 'none' || form.style.display === '') {
+                    form.style.display = 'block';
+                } else {
+                    form.style.display = 'none';
+                }
+
+            }
+function shareOnWhatsApp(subjectName, courseId) 
+{
+  const courseLink = `${window.location.origin}/course/${courseId}`;
+  const message = `visit classHub and download this notes: ${subjectName}\n\n${courseLink}`;
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+}
+
+</script>
+    </div>
+</body>
+
+</html>

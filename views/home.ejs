@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/group.css">
+</head>
+
+<body>
+    <% if(success.length>0) {%>
+        <div class="success-content">
+            <div class="show-success">
+                <h3 class="show-success-text">
+                    <%=success%>
+                </h3>
+            </div>
+        </div>
+        <%}%>
+    <nav class="navbar">
+        <div class="icon-home">
+            
+            <% if (user.role=="admin" ) { %>
+                <a href="/home"> <img class="vector-home" src="/images/home.png" alt="home-icon"></a>
+                <% }else { %>
+                    <a href="/homeUser"> <img class="vector-home" src="/images/home.png" alt="home-icon"></a>
+                <% } %>
+        </div>
+        <div class="add-material-icon">
+            <% if (user.role=="admin" ) { %>
+        <div class="icon-logout">
+            <a href="/owners/admin"> <img class="icon-logout" src="/images/addmaterial.png" alt="logout-icon"></a>
+        </div>
+        <% } %>
+        <div class="icon-logout">
+            <a href="/users/logout"> <img class="icon-logout" src="/images/logout.png" alt="logout-icon"></a>
+        </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+
+        <div class="add-group-icon" onclick="toggleForm()">+</div>
+        <% if (user.role=="admin" ) { %>
+
+            <div class="form-container" id="groupForm">
+                <form action="/groups/add" method="POST">
+                    <label for="groupName">Group Name:</label>
+                    <input type="text" id="groupName" name="name" placeholder="Enter group name" required>
+                    <label for="groupId">Group ID:</label>
+                    <input type="text" id="groupId" name="group_id" placeholder="Enter group id" required>
+
+                    <label for="groupDescription">Description:</label>
+                    <textarea id="groupDescription" name="description" rows="3" placeholder="Enter group description"
+                        required></textarea>
+
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+
+            <% } else { %>
+                <div class="form-container" id="groupForm">
+                    <form action="/groups/join" method="POST">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" name="name" placeholder="Enter group name" required>
+                        <label for="groupId">Group ID:</label>
+                        <input type="text" id="groupId" name="group_id" placeholder="Enter group id" required>
+    
+                        <button type="submit">join Group</button>
+                    </form>
+                </div>
+
+                <% } %>
+
+                <ul class="group-list">
+                    <% if (groups.length>0) {%>
+                        <% groups.forEach(group=>{ %>
+                            <% if (group.members.includes(user._id)) { %>
+                                <li class="group-item">
+                                    <%= group.name %>
+                                    <a href="/groups/<%= group.name %>" class="btn view-btn">View</a>
+                                </li>
+                            <% } %>
+                            <% }) %>
+                     <% } else { %>
+                        <h2 style="color:white;">No group Yet</h2>
+                     <% } %>
+                </ul> 
+    </div>
+    <div class="main-body">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <div class="department-section">
+            <div class="department-arrow">→</div>
+            <div class="department-name">CSE</div>
+
+        </div>
+        <div class="years-container">
+            <% if (user.role=="admin") {%>
+            <a href="/owners/First" style="text-decoration: none;">
+                <div class="year-box">1st Year</div>
+            </a>
+            <a href="/owners/Second" style="text-decoration: none;">
+                <div class="year-box">2nd Year</div>
+            </a>
+            <a href="/owners/Third" style="text-decoration: none;">
+                <div class="year-box">3rd Year</div>
+            </a>
+            <a href="/owners/B.tech" style="text-decoration: none;">
+                <div class="year-box">4th Year</div>
+            </a>
+            <% } else { %>
+                <a href="/users/First" style="text-decoration: none;">
+                    <div class="year-box">1st Year</div>
+                </a>
+                <a href="/users/Second" style="text-decoration: none;">
+                    <div class="year-box">2nd Year</div>
+                </a>
+                <a href="/users/Third" style="text-decoration: none;">
+                    <div class="year-box">3rd Year</div>
+                </a>
+                <a href="/users/B.tech" style="text-decoration: none;">
+                    <div class="year-box">4th Year</div>
+                </a>
+                   <% } %>
+        </div>
+    </div>
+    <script>function toggleForm() {
+
+            const form = document.getElementById('groupForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block'; // Show the form
+            } else {
+                form.style.display = 'none'; // Hide the form
+            }
+
+        }</script>
+</body>
+
+</html>

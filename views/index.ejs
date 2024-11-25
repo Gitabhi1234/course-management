@@ -1,0 +1,47 @@
+ <%-include('./partials/header') %>
+           <% if(error.length>0) {%>
+            <div class="error-content">
+                <div class="show-error">
+                 <h3 class="show-error-text"> <%=error%> </h3>
+                </div>
+            </div>
+            <%}%>
+    <div class="main">
+        <div class="box">
+            <div class="inside-box">
+                <h2 class="welcome-text">welcome to <span class="welcome-text-name">Classhub</span></h3>
+                <h3 class="create-account-text">create your account</h4>
+                <form autocomplete="off" action="/users/register" method="post" class="form-sign">
+                    <br>
+                    <input class="email-password-box" type="text" placeholder="Fullname" id="fullname" name="fullname" required><br>
+                    <input class="email-password-box" type="email" placeholder="Email" id="email" name="email" required><br>
+                    <input class="email-password-box" type="password" placeholder="Password" id="password" name="password" required><br>
+                    <select name="role" id="role" class="email-password-box">
+                        <option value="student">student</option>
+                        <option value="admin">admin</option>
+                    </select>
+                    <br>
+                    <button class="submit-button" type="submit">Create My Account</button>
+                </form>
+            </div>
+        </div>
+        <div class="box">
+            <div class="inside-box">
+                <h1 class="create-account-text">Login</h1>
+                <form autocomplete="off" action="/users/login" method="post" class="form-sign">
+                    <br>
+                    <input class="email-password-box" type="email" placeholder="Email" id="email" name="email" required><br>
+                    <input class="email-password-box" type="password" placeholder="Password" id="password" name="password" required><br>
+                    <select name="role" id="role" class="email-password-box">
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <br>
+                    <input class="submit-button"value="Login" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
